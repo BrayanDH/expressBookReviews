@@ -62,11 +62,9 @@ regd_users.post('/login', (req, res) => {
 
 regd_users.put('/auth/review/:isbn', (req, res) => {
   //Write your code here
-  // Obtener el ISBN del libro desde los parámetros de la ruta
+  // Obtener el ISBN del libro desde los parámetros de la ruta, la reseña y el nombre de usuario
   const isbn = req.params.isbn;
-  // Obtener la reseña enviada en el cuerpo de la solicitud
   const review = req.body.review;
-  // Obtener el nombre de usuario almacenado en la sesión
   const username = req.session.authorization.username;
 
   if (!review) {
@@ -76,8 +74,10 @@ regd_users.put('/auth/review/:isbn', (req, res) => {
   if (!books[isbn]) {
     return res.status(404).json({ message: 'Book not found' });
   }
+
   // Obtener las reseñas existentes para ese ISBN
   let reviews = books[isbn].reviews;
+
   // Verificar si el usuario ya ha publicado una reseña para ese ISBN
   if (reviews[username]) {
     // Si ya ha publicado una reseña, actualizar la reseña existente
@@ -87,36 +87,32 @@ regd_users.put('/auth/review/:isbn', (req, res) => {
     // Si no ha publicado una reseña, agregar una nueva reseña
     reviews[username] = review;
   }
+
   // Actualizar la reseña en la base de datos
   books[isbn].reviews = reviews;
-  // Responder con un mensaje de éxito
   res.status(200).json({ message: 'Review successfully published' });
 });
 
 regd_users.delete('/auth/review/:isbn', (req, res) => {
-  // Obtener el ISBN del libro desde los parámetros de la ruta
+  // Obtener el ISBN del libro desde los parámetros de la ruta y el nombre de usuario almacenado en la sesión
   const isbn = req.params.isbn;
-  // Obtener el nombre de usuario almacenado en la sesión
   const username = req.session.authorization.username;
+
   // Verificar si el libro existe en la base de datos
   if (!books[isbn]) {
     return res.status(404).json({ message: 'Book not found' });
   }
+
   // Obtener las reseñas existentes para ese ISBN
-
   let reviews = books[isbn].reviews;
+
   // Verificar si el usuario ya ha publicado una reseña para ese ISBN
+  // Si ya ha publicado una reseña, eliminar la reseña existente y actualizar la base de datos
   if (reviews[username]) {
-    // Si ya ha publicado una reseña, eliminar la reseña existente
-
     delete reviews[username];
-    // Actualizar la reseña en la base de datos
     books[isbn].reviews = reviews;
-    // Responder con un mensaje de éxito
-
     res.status(200).json({ message: 'Review successfully deleted' });
   } else {
-    // Si no ha publicado una reseña, enviar un mensaje de error
     res.status(404).json({ message: 'Review not found' });
   }
 });
