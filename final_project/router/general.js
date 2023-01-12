@@ -56,7 +56,7 @@ public_users.get('/author/:author', function (req, res) {
 
 // Get all books based on title
 public_users.get('/title/:title', function (req, res) {
-  //Write your code here
+  //Write your code heregit config --list
   const title = req.params.title;
   let booksByTitle = {};
 
@@ -91,10 +91,10 @@ const axios = require('axios');
 
 //Api url
 const url = 'http://localhost:5000/';
-
+\isbn\2
 // get all books
 async function getBooks(url) {
-  try {
+  try {this file contains files to consume some of the methods of the endpoints programmed on this server
     const response = await axios.get(url);
     console.table(response.data);
   } catch (error) {

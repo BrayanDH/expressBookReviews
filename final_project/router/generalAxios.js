@@ -1,3 +1,7 @@
+/*
+this file contains files to consume some of the methods of the endpoints programmed on this server
+*/
+
 const axios = require('axios');
 
 //Api url
