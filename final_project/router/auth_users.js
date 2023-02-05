@@ -6,8 +6,7 @@ const regd_users = express.Router();
 let users = [];
 
 const isValid = (username) => {
-  //returns boolean
-  //write code to check is the username is valid
+  // check if username already exists in the database
   let userswithsamename = users.filter((user) => {
     return user.username === username;
   });
@@ -19,8 +18,7 @@ const isValid = (username) => {
 };
 
 const authenticatedUser = (username, password) => {
-  //returns boolean
-  //write code to check if username and password match the one we have in records.
+  // check if username and password match the database records
   let validusers = users.filter((user) => {
     return user.username === username && user.password === password;
   });
@@ -33,10 +31,11 @@ const authenticatedUser = (username, password) => {
 
 //only registered users can login
 regd_users.post('/login', (req, res) => {
-  //Write your code here
+  // get username and password from the request body
   const username = req.body.username;
   const password = req.body.password;
 
+  // check if username and password are provided in the request body and if they match the database records and if they match, generate a JWT token and send it back to the client in the response header
   if (!username || !password) {
     return res.status(404).json({ message: 'Error logging in' });
   }
@@ -61,53 +60,51 @@ regd_users.post('/login', (req, res) => {
 });
 
 regd_users.put('/auth/review/:isbn', (req, res) => {
-  //Write your code here
-  // Obtener el ISBN del libro desde los parámetros de la ruta, la reseña y el nombre de usuario
+  // Get the ISBN from the request parameters and the review from the request body and the username from the session object
   const isbn = req.params.isbn;
   const review = req.body.review;
   const username = req.session.authorization.username;
 
+  // Check if the review is provided in the request body
   if (!review) {
     return res.status(400).json({ message: 'No review provided' });
   }
-  // Verificar si el libro existe en la base de datos
+
+  // Check if the book exists in the database
   if (!books[isbn]) {
     return res.status(404).json({ message: 'Book not found' });
   }
 
-  // Obtener las reseñas existentes para ese ISBN
+  // Get the reviews for the book
   let reviews = books[isbn].reviews;
 
-  // Verificar si el usuario ya ha publicado una reseña para ese ISBN
+  // Check if the user has already posted a review for the book and update the review if the user has already posted a review for the book
   if (reviews[username]) {
-    // Si ya ha publicado una reseña, actualizar la reseña existente
     res.status(200).json({ message: 'Review updated' });
     reviews[username] = review;
   } else {
-    // Si no ha publicado una reseña, agregar una nueva reseña
     reviews[username] = review;
   }
 
-  // Actualizar la reseña en la base de datos
+  // Update the database and send a response to the client
   books[isbn].reviews = reviews;
   res.status(200).json({ message: 'Review successfully published' });
 });
 
 regd_users.delete('/auth/review/:isbn', (req, res) => {
-  // Obtener el ISBN del libro desde los parámetros de la ruta y el nombre de usuario almacenado en la sesión
+  // Get the ISBN from the request parameters and the username from the session object
   const isbn = req.params.isbn;
   const username = req.session.authorization.username;
 
-  // Verificar si el libro existe en la base de datos
+  // verified if the book exists in the database
   if (!books[isbn]) {
     return res.status(404).json({ message: 'Book not found' });
   }
 
-  // Obtener las reseñas existentes para ese ISBN
+  // get the reviews for the book
   let reviews = books[isbn].reviews;
 
-  // Verificar si el usuario ya ha publicado una reseña para ese ISBN
-  // Si ya ha publicado una reseña, eliminar la reseña existente y actualizar la base de datos
+  // check if the user has posted a review for the book and delete the review if the user has posted a review for the book
   if (reviews[username]) {
     delete reviews[username];
     books[isbn].reviews = reviews;
