@@ -10,7 +10,41 @@ This project is an API for book reviews developed using Express, a popular web a
 
 ## Getting Started
 
-To run the expressBookReviews API locally, follow these steps:
+To run the Todo App locally using Docker, follow these steps:
+
+Install Docker on your machine: [Docker Installation Guide ](https://docs.docker.com/engine/install/)
+
+1. Clone this repository:
+
+   ```
+   git clone https://github.com/BrayanDH/expressBookReviews.git
+   ```
+
+2. Navigate to the project directory:
+
+   ```
+   cd expressBookReviews
+   ```
+
+3. Build the Docker image:
+
+   ```
+   docker build -t expressBookReviews .
+   ```
+
+   This command will use the Dockerfile in the project directory to build an image named expressBookReviews`.
+
+4. Run the Docker container:
+
+   ```
+   docker run -p 5000:5000 expressBookReviews
+   ```
+
+   This command will start a Docker container from the `expressBookReviews` image and map port 5000 of the container to port 5000 of the host system.
+
+5. Open a web browser and go to `http://localhost:5000` to access the API.
+
+To run the expressBookReviews locally without docker, follow these steps:
 
 1. Clone this repository:
 
