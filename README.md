@@ -32,7 +32,7 @@ Install Docker on your machine: [Docker Installation Guide ](https://docs.docker
    docker build -t expressBookReviews .
    ```
 
-   This command will use the Dockerfile in the project directory to build an image named expressBookReviews`.
+   This command will use the Dockerfile in the project directory to build an image named `expressBookReviews`.
 
 4. Run the Docker container:
 
