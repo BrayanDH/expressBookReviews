@@ -70,7 +70,7 @@ To run the expressBookReviews locally without docker, follow these steps:
    npm start
    ```
 
-5. Open your web browser and visit http://localhost:3000 to access the expressBookReviews API.
+5. Open your web browser and visit http://localhost:5000 to access the expressBookReviews API.
 
 ## Dependencies
 
