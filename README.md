@@ -29,7 +29,7 @@ Install Docker on your machine: [Docker Installation Guide ](https://docs.docker
 3. Build the Docker image:
 
    ```
-   docker build -t expressBookReviews .
+   docker build -t express_book_reviews .
    ```
 
    This command will use the Dockerfile in the project directory to build an image named `expressBookReviews`.
@@ -37,7 +37,7 @@ Install Docker on your machine: [Docker Installation Guide ](https://docs.docker
 4. Run the Docker container:
 
    ```
-   docker run -p 5000:5000 expressBookReviews
+   docker run -p 5000:5000 express_book_reviews
    ```
 
    This command will start a Docker container from the `expressBookReviews` image and map port 5000 of the container to port 5000 of the host system.
